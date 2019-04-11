@@ -3,6 +3,9 @@ package com.example.chat;
 public class TextModel {
     private String message;
 
+    public TextModel() {
+    }
+
     TextModel(String message) {
         this.message = message;
     }
