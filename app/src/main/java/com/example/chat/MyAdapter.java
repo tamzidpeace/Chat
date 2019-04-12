@@ -12,7 +12,9 @@ import java.util.ArrayList;
 
 class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
+    //memeber variable
     private ArrayList<TextModel> messageList;
+    //constant
     private static final String TAG = "MyAdapter";
 
     MyAdapter(ArrayList<TextModel> messageList) {
