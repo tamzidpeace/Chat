@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,20 +31,28 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<TextModel> messageList;
     private DatabaseReference myRef;
     private String message;
+    private EditText textField;
+    private Button sendBtn;
+    private long childNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        myRef = FirebaseDatabase.getInstance().getReference("abc");
+        textField = findViewById(R.id.message_field);
+        sendBtn = findViewById(R.id.send_btn);
+
         createMessageList();
         createRecyclerView();
+        sendMessage();
     }
 
     private void createMessageList() {
 
         messageList = new ArrayList<>();
-        myRef = FirebaseDatabase.getInstance().getReference("abc");
+
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -55,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(TAG, "onDataChange: " + message);
                     messageList.add(new TextModel(message));
                     recyclerView.setAdapter(mAapater);
-
                 }
             }
 
@@ -74,5 +84,19 @@ public class MainActivity extends AppCompatActivity {
         mAapater = new MyAdapter(messageList);
         recyclerView.setLayoutManager(mLayoutManager);
 
+    }
+
+    private void sendMessage() {
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                childNum = messageList.size() + 1;
+                String num = String.valueOf(childNum);
+                String message = textField.getText().toString();
+                myRef.child(num).setValue(message);
+                textField.setText("");
+                Log.d(TAG, "onClick: " + num);
+            }
+        });
     }
 }
