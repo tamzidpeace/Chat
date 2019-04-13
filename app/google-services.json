@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:24332734484:android:dbe1563d2fc52488",
+        "mobilesdk_app_id": "1:24332734484:android:24ce4ef99969196a",
         "android_client_info": {
-          "package_name": "com.arafat.flashchatnewfirebase"
+          "package_name": "com.example.chat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "24332734484-uamq356bp08rcg67fftq6c3tuce8qmjo.apps.googleusercontent.com",
+          "client_id": "24332734484-uhd17pdj5jcj894v11nbo9d4qklv8jlk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.arafat.flashchatnewfirebase",
+            "package_name": "com.example.chat",
             "certificate_hash": "449631fdc43ce583ff13246b29839ec310519127"
           }
         },
@@ -45,17 +45,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:24332734484:android:24ce4ef99969196a",
+        "mobilesdk_app_id": "1:24332734484:android:9fd6d6f312f2d670",
         "android_client_info": {
-          "package_name": "com.example.chat"
+          "package_name": "com.example.chat01"
         }
       },
       "oauth_client": [
         {
-          "client_id": "24332734484-uhd17pdj5jcj894v11nbo9d4qklv8jlk.apps.googleusercontent.com",
+          "client_id": "24332734484-g0j086c3jr39iki3qmf3o4ibor3gd267.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.chat",
+            "package_name": "com.example.chat01",
             "certificate_hash": "449631fdc43ce583ff13246b29839ec310519127"
           }
         },
