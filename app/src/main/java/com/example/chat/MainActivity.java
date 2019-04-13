@@ -1,6 +1,7 @@
 package com.example.chat;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Button sendBtn;
     private long childNum;
     private FirebaseAuth mAuth;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         textField = findViewById(R.id.message_field);
         sendBtn = findViewById(R.id.send_btn);
         mAuth = FirebaseAuth.getInstance();
+
+        SharedPreferences preferences = getApplicationContext().getSharedPreferences("myPref", MODE_PRIVATE);
+        username = preferences.getString("username", null);
+        Log.d(TAG, "onCreate: " + username);
 
         createMessageList();
         createRecyclerView();
@@ -101,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 childNum = messageList.size() + 1;
                 String num = String.valueOf(childNum);
                 String message = textField.getText().toString();
-                myRef.child(num).setValue(message);
+                myRef.child(num).setValue(username + "-> " + message);
                 textField.setText("");
                 Log.d(TAG, "onClick: " + num);
             }

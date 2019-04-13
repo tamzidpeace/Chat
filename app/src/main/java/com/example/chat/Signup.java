@@ -15,6 +15,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Signup extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class Signup extends AppCompatActivity {
     private Button signupBtn;
     private FirebaseAuth mAuth;
     private String mUsername = "", mEmail = "", mPassword = "";
+    private DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,7 @@ public class Signup extends AppCompatActivity {
         password = findViewById(R.id.signup_password);
         signupBtn = findViewById(R.id.signup);
         mAuth = FirebaseAuth.getInstance();
+        //myRef = FirebaseDatabase.getInstance().getReference("User");
 
         signup();
 
@@ -51,6 +58,7 @@ public class Signup extends AppCompatActivity {
                 mEmail = email.getText().toString();
                 mPassword = password.getText().toString();
 
+
                 mAuth.createUserWithEmailAndPassword(mEmail, mPassword)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -59,6 +67,16 @@ public class Signup extends AppCompatActivity {
                                     Log.d(TAG, "onComplete: signup success");
                                     Toast.makeText(Signup.this, "Registaion is on progress!", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(Signup.this, Signin.class));
+
+                                    // save information in database
+                                    Map<String,Object> taskMap = new HashMap<>();
+                                    taskMap.put("username", mUsername);
+                                    taskMap.put("email", mEmail);
+                                    taskMap.put("password", mPassword);
+                                    FirebaseUser user = mAuth.getCurrentUser();
+
+                                    myRef = FirebaseDatabase.getInstance().getReference("user").child(user.getUid());
+                                    myRef.updateChildren(taskMap);
                                 } else {
                                     Log.w(TAG, "onComplete: Authentication failed", task.getException());
                                     Toast.makeText(Signup.this, "Authentication failed", Toast.LENGTH_SHORT).show();
