@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +25,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private Button sendBtn;
     private long childNum;
     private FirebaseAuth mAuth;
-    String username;
+    private String username, num, message2;
+    private FirebaseUser presentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
         sendBtn = findViewById(R.id.send_btn);
         mAuth = FirebaseAuth.getInstance();
 
-        SharedPreferences preferences = getApplicationContext().getSharedPreferences("myPref", MODE_PRIVATE);
-        username = preferences.getString("username", null);
-        Log.d(TAG, "onCreate: " + username);
-
         createMessageList();
         createRecyclerView();
         sendMessage();
@@ -66,7 +63,6 @@ public class MainActivity extends AppCompatActivity {
     private void createMessageList() {
 
         messageList = new ArrayList<>();
-
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.w(TAG, "onCancelled: ", databaseError.toException());
             }
         });
     }
@@ -105,9 +101,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 childNum = messageList.size() + 1;
-                String num = String.valueOf(childNum);
-                String message = textField.getText().toString();
-                myRef.child(num).setValue(username + "-> " + message);
+                num = String.valueOf(childNum);
+                message2 = textField.getText().toString();
+                presentUser = mAuth.getCurrentUser();
+                DatabaseReference newRef = FirebaseDatabase.getInstance().getReference("user").child(presentUser.getUid()).child("username");
+                newRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        username = dataSnapshot.getValue(String.class);
+                        myRef.child(num).setValue(username + "-> " + message2);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
                 textField.setText("");
                 Log.d(TAG, "onClick: " + num);
             }
@@ -130,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
             mAuth.signOut();
             startActivity(new Intent(MainActivity.this, Signin.class));
         }
-
         return true;
     }
 }

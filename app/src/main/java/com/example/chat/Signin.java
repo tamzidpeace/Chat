@@ -32,7 +32,6 @@ public class Signin extends AppCompatActivity {
     private Button signinBtn, signupBtn;
     private FirebaseAuth mAuth;
     private DatabaseReference myRef;
-    String mUsername;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class Signin extends AppCompatActivity {
         signinBtn = findViewById(R.id.signin_btn);
         signupBtn = findViewById(R.id.signup_btn);
         mAuth = FirebaseAuth.getInstance();
-
 
         signup();
         signin();
@@ -75,8 +73,6 @@ public class Signin extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                     updateUI(null);
                                 }
-
-                                // ...
                             }
                         });
             }
@@ -98,41 +94,15 @@ public class Signin extends AppCompatActivity {
         super.onStart();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.d(TAG, "onStart: " + currentUser);
         updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser currentUser) {
         Log.d(TAG, "updateUI: " + currentUser);
         if (currentUser != null) {
-
-            String username = getUsername(currentUser);
-            Log.d(TAG, "username: " + username);
-
             startActivity(new Intent(Signin.this, MainActivity.class));
             Toast.makeText(this, "Welcome!", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private String getUsername(FirebaseUser user) {
-
-        myRef = FirebaseDatabase.getInstance().getReference("user").child(user.getUid()).child("username");
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                mUsername = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "getUsername: " + mUsername);
-                SharedPreferences preferences = getApplicationContext().getSharedPreferences("myPref", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("username", mUsername).apply();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w(TAG, "onCancelled: ", databaseError.toException() );
-            }
-        });
-
-        return mUsername;
-
     }
 }
