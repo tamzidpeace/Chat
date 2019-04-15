@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login"
+    android:background="@drawable/background"
     tools:context=".Signin">
 
     <EditText
         android:id="@+id/email"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="32dp"
@@ -24,12 +24,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/background2"/>
 
     <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="32dp"
@@ -43,7 +44,8 @@
         app:layout_constraintTop_toBottomOf="@+id/email"
         android:hint="Password"
         android:textSize="24sp"
-        android:textColor="#000"/>
+        android:textColor="#000"
+        android:background="@drawable/background2"/>
 
     <Button
         android:id="@+id/signin_btn"
@@ -61,6 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/password"
         android:textSize="18sp"
         android:textAllCaps="false"
+        android:background="@drawable/background2"
         android:textColor="#000"/>
 
     <Button
@@ -79,5 +82,6 @@
         app:layout_constraintTop_toBottomOf="@+id/signin_btn"
         android:textSize="18sp"
         android:textAllCaps="false"
-        android:textColor="#000"/>
+        android:textColor="#000"
+        android:background="@drawable/background2"/>
 </android.support.constraint.ConstraintLayout>
