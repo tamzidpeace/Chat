@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,6 +22,17 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         this.messageList = messageList;
     }
 
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        TextView message, from;
+
+        MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            message = itemView.findViewById(R.id.message);
+            from = itemView.findViewById(R.id.from);
+        }
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -33,6 +45,7 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         TextModel textModel = messageList.get(i);
         myViewHolder.message.setText(textModel.getMessage());
+        myViewHolder.from.setText(textModel.getFrom());
     }
 
     @Override
@@ -41,13 +54,4 @@ class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         return messageList.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder {
-
-        TextView message;
-
-        MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            message = itemView.findViewById(R.id.message);
-        }
-    }
 }

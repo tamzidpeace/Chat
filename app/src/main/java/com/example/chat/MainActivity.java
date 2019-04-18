@@ -73,8 +73,10 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     message = snapshot.getValue(String.class);
+
                     Log.d(TAG, "onDataChange: " + message);
-                    messageList.add(new TextModel(message));
+                    messageList.add(new TextModel(message, username));
+                    Log.d(TAG, "from: " );
                     recyclerView.setAdapter(mAapater);
                 }
             }
@@ -91,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
+        // load recyclerView item from bottom
+        ((LinearLayoutManager) mLayoutManager).setStackFromEnd(true);
         mAapater = new MyAdapter(messageList);
         recyclerView.setLayoutManager(mLayoutManager);
 
@@ -122,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onClick: " + num);
             }
         });
+
     }
 
     @Override
